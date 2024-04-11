@@ -113,7 +113,7 @@ print("PARSED DATE $createDateParsed");
       ),
     );
   }
-
+  
   Color _getColorFromMood() {
     switch (widget.journalEntry.mood.toLowerCase()) {
       case 'happy':

@@ -13,7 +13,7 @@ class TopicPostsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${topic.name} Community'),
+        title: Text('${topic.name} ') ,
       ),
       body: FutureBuilder(
         future: _firebaseOperations.fetchPosts(topic.id), 

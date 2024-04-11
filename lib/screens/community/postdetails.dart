@@ -53,18 +53,21 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                   color: Colors.black.withOpacity(0.3),
                 ),
               ),
-              Positioned(
-                left: 16.0,
-                bottom: 16.0,
-                child: Text(
-                  widget.post.caption,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+             Positioned(
+  left: 16.0,
+  bottom: 16.0,
+  child: Container(
+    width: MediaQuery.of(context).size.width - 10.0, 
+    child: Text(
+      widget.post.caption,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 24.0,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  ),
+),
             ],
           ),
           Padding(
