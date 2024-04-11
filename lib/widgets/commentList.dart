@@ -133,7 +133,8 @@ Widget build(BuildContext context) {
                                 ],
                               ),
                             ),
-                           
+                        Row(
+  children: [
                             IconButton(
                               icon: Icon(Icons.favorite),
                               color: snapshot.data!.docs.any((likeDoc) => likeDoc.id == currentUserId)
@@ -162,10 +163,10 @@ Widget build(BuildContext context) {
                                 }
                               },
                             ),
-                            SizedBox(width: 5),
+                       
                             Text('$likes'),
                           ],
-                        ),
+                        ),]),
                         SizedBox(height: 0),
                         Row(
                           children: [ 
