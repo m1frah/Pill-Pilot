@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'login.dart'; 
+import 'login.dart';
 import '../database/firebaseoperations.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
-  FirebaseOperations _firebaseOperations = FirebaseOperations(); 
+
+FirebaseOperations _firebaseOperations = FirebaseOperations();
+
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
 
@@ -19,7 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-  FirebaseOperations _firebaseOperations = FirebaseOperations(); 
+      FirebaseOperations _firebaseOperations = FirebaseOperations();
       _firebaseOperations.createUser(_username, _email, _gender!, _password);
       Navigator.pushReplacement(
         context,
@@ -28,13 +30,15 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
-      ),
+          title: Text(
+            'Sign Up',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: const Color.fromARGB(255, 71, 61, 110)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -80,7 +84,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(labelText: 'Gender'),
-               validator: (value) {
+                validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your Gender';
                   }
@@ -104,7 +108,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: _submitForm,
                 child: Text('Sign Up'),
               ),
-              SizedBox(height: 10), 
+              SizedBox(height: 10),
               TextButton(
                 onPressed: () {
                   Navigator.pushReplacement(

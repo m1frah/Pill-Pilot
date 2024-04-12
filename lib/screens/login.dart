@@ -16,21 +16,17 @@ class _LoginPageState extends State<LoginPage> {
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       try {
-
         await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
 
- 
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
         );
       } catch (error) {
-  
         print('Error: $error');
-
       }
     }
   }
@@ -39,8 +35,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
-      ),
+          title: Text(
+            'Login',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: const Color.fromARGB(255, 71, 61, 110)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -76,7 +75,6 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 10),
               TextButton(
                 onPressed: () {
-        
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => SignUpPage()),
