@@ -41,84 +41,86 @@ class _SignUpPageState extends State<SignUpPage> {
           backgroundColor: const Color.fromARGB(255, 71, 61, 110)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Username'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your username';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _username = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _email = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _password = value!;
-                },
-              ),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(labelText: 'Gender'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your Gender';
-                  }
-                  return null;
-                },
-                items: ['Male', 'Female']
-                    .map((gender) => DropdownMenuItem<String>(
-                          value: gender,
-                          child: Text(gender),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _gender = value;
-                  });
-                },
-                value: _gender,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: Text('Sign Up'),
-              ),
-              SizedBox(height: 10),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  );
-                },
-                child: Text('Already have an account? Login'),
-              ),
-            ],
+        child: SingleChildScrollView( // Wrap Column with SingleChildScrollView
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Username'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your username';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _username = value!;
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Email'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _email = value!;
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Password'),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _password = value!;
+                  },
+                ),
+                DropdownButtonFormField<String>(
+                  decoration: InputDecoration(labelText: 'Gender'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your Gender';
+                    }
+                    return null;
+                  },
+                  items: ['Male', 'Female']
+                      .map((gender) => DropdownMenuItem<String>(
+                            value: gender,
+                            child: Text(gender),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _gender = value;
+                    });
+                  },
+                  value: _gender,
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _submitForm,
+                  child: Text('Sign Up'),
+                ),
+                SizedBox(height: 10),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  },
+                  child: Text('Already have an account? Login'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
