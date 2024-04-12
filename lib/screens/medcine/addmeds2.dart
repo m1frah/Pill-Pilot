@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pillapp/database/sql_helper.dart';
 import '../Home.dart';
+
 class AddMedicinePage2 extends StatefulWidget {
   final String selectedType;
   final String name;
@@ -17,7 +18,6 @@ class AddMedicinePage2 extends StatefulWidget {
 }
 
 class _AddMedicinePage2State extends State<AddMedicinePage2> {
-  
   String _selectedTime = '';
   List<bool> _selectedDays = [false, false, false, false, false, false, false];
 
@@ -27,7 +27,7 @@ class _AddMedicinePage2State extends State<AddMedicinePage2> {
       appBar: AppBar(
         title: Text('Add Repetition Details'),
       ),
-      body: SingleChildScrollView( 
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -37,7 +37,7 @@ class _AddMedicinePage2State extends State<AddMedicinePage2> {
                 'Select Time:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-               SizedBox(height: 16),
+              SizedBox(height: 16),
               Text(
                 ' $_selectedTime',
                 style: TextStyle(fontSize: 20),
@@ -50,7 +50,6 @@ class _AddMedicinePage2State extends State<AddMedicinePage2> {
                 icon: Icon(Icons.access_time),
                 label: Text('Select Time'),
               ),
-             
               SizedBox(height: 16),
               Text(
                 'Select Repetition Days:',
@@ -115,12 +114,12 @@ class _AddMedicinePage2State extends State<AddMedicinePage2> {
   }
 
   Future<void> _saveDetails() async {
-       
     bool isAtLeastOneDaySelected = _selectedDays.any((day) => day);
     if (!isAtLeastOneDaySelected || _selectedTime.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Please select at least one repetition day and a time.'),
+          content:
+              Text('Please select at least one repetition day and a time.'),
           backgroundColor: Colors.red,
         ),
       );
@@ -151,9 +150,9 @@ class _AddMedicinePage2State extends State<AddMedicinePage2> {
         backgroundColor: Colors.green,
       ),
     );
-Navigator.pushReplacement(
-  context,
-  MaterialPageRoute(builder: (context) => HomePage()),
-);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
   }
 }

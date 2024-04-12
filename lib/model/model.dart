@@ -1,30 +1,26 @@
-//sjhuld create and use models for signup as well
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-class Medication {
 
+class Medication {
   final String type;
   final String name;
   final String reason;
   final String days;
   final String time;
 
-
   Medication({
-   
     required this.type,
     required this.name,
     required this.reason,
     required this.days,
     required this.time,
-
   });
 }
+
 class Users {
   final String userId;
-   String username;
-   String gender;
-   String pfp;
+  String username;
+  String gender;
+  String pfp;
 
   Users({
     required this.userId,
@@ -32,9 +28,10 @@ class Users {
     required this.gender,
     required this.pfp,
   });
-   void setGender(String newGender) {
+  void setGender(String newGender) {
     gender = newGender;
   }
+
   void setUsername(String newUsername) {
     username = newUsername;
   }
@@ -43,6 +40,7 @@ class Users {
     pfp = newPfp;
   }
 }
+
 class Comment {
   final String id;
   final String userId;
@@ -69,6 +67,7 @@ class Comment {
     );
   }
 }
+
 class Post {
   final String id;
   final String caption;
@@ -87,24 +86,24 @@ class Topic {
   final String id;
   final String name;
   final String description;
-   final String icon;
+  final String icon;
   Topic({
-    required this.id, 
+    required this.id,
     required this.name,
     required this.description,
-      required this.icon,
+    required this.icon,
   });
- 
-  
-}class JournalEntry {
-   final int id;
+}
+
+class JournalEntry {
+  final int id;
   final String title;
   final String content;
   final String createDate;
   final String mood;
 
   JournalEntry({
-        required this.id, 
+    required this.id,
     required this.title,
     required this.content,
     required this.createDate,
