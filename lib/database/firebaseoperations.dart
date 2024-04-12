@@ -21,7 +21,7 @@ Future<void> removeFriend(String friendId) async {
     print('Error removing friend: $e');
   }}
 
-//get pfp
+
 
 userPfp(String userId) async {
   try {

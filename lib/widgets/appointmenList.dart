@@ -41,10 +41,14 @@ class _AppointmentListWidgetState extends State<AppointmentListWidget> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditAppointmentPage(appointment: appointment),
+                      builder: (context) => EditAppointmentPage(appointment: appointment)
                     ),
-                  );
-                },
+                  ).then((value) {
+  
+    _fetchAppointments();
+
+
+                  });  },
                 child: ListTile(
                   contentPadding: EdgeInsets.all(16), 
                   leading: Icon(Icons.event),

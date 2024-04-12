@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pillapp/database/sql_helper.dart';
-
+import '../Home.dart';
 class AddMedicinePage2 extends StatefulWidget {
   final String selectedType;
   final String name;
@@ -17,6 +17,7 @@ class AddMedicinePage2 extends StatefulWidget {
 }
 
 class _AddMedicinePage2State extends State<AddMedicinePage2> {
+  
   String _selectedTime = '';
   List<bool> _selectedDays = [false, false, false, false, false, false, false];
 
@@ -114,6 +115,7 @@ class _AddMedicinePage2State extends State<AddMedicinePage2> {
   }
 
   Future<void> _saveDetails() async {
+       
     bool isAtLeastOneDaySelected = _selectedDays.any((day) => day);
     if (!isAtLeastOneDaySelected || _selectedTime.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -149,7 +151,9 @@ class _AddMedicinePage2State extends State<AddMedicinePage2> {
         backgroundColor: Colors.green,
       ),
     );
-
-    Navigator.pop(context);
+Navigator.pushReplacement(
+  context,
+  MaterialPageRoute(builder: (context) => HomePage()),
+);
   }
 }

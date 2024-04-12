@@ -54,14 +54,24 @@ class MyApp extends StatelessWidget {
         } else {
           if (snapshot.hasData) {
 
-            return MaterialApp(
+            return MaterialApp(debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+        fontFamily: 'Roboto',
+
+      ),
               navigatorKey: navigatorKey,
               title: 'Pill Pilot ',
+              
               home: HomePage(),
+
             );
           } else {
         
-            return MaterialApp(
+            return MaterialApp(debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+        fontFamily: 'Roboto',
+
+      ),
               navigatorKey: navigatorKey,
               title: 'Pill Pilot ',
               home: LoginPage(), 

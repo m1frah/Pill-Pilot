@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pillapp/model/model.dart';
 import 'medcine/medicinepage.dart';
 import 'appointments/appointments.dart';
 import 'community/community.dart';
@@ -11,14 +12,19 @@ import 'sidebar/friends/friends.dart';
 import 'sidebar/sync.dart';
 import 'sidebar/Journal/journal.dart';
 import '../database/sql_helper.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../database/firebaseoperations.dart';
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
+  
+
 }
 
 class _HomePageState extends State<HomePage> {
+    FirebaseOperations _firebaseOperations = FirebaseOperations(); 
   int _selectedIndex = 0;
-
+String? _userProfilePicture;
   final List<Widget> _pages = [
     CalendarWidget(),
     MedicationPage(),
@@ -31,27 +37,29 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadUsername(); 
+     _loadUsernameAndProfilePicture();
   }
 
-  Future<void> _loadUsername() async {
- 
-    if (FirebaseAuth.instance.currentUser != null) {
-
-      String userId = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot<Map<String, dynamic>> userSnapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
-      if (userSnapshot.exists) {
-        setState(() {
-          _username = userSnapshot.data()!['username'] ?? ''; 
-        });
-      }
-    } else {
-  
+  Future<void> _loadUsernameAndProfilePicture() async {
+  if (FirebaseAuth.instance.currentUser != null) {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    if (userSnapshot.exists) {
       setState(() {
-        _username = 'Guest';
+        _username = userSnapshot.data()!['username'] ?? '';
       });
+   Users userProfilePicture = await _firebaseOperations.getUserData();
+        setState(() {
+          _userProfilePicture = userProfilePicture.pfp;
+        });
     }
+  } else {
+    setState(() {
+      _username = 'Guest';
+    });
   }
+}
 
   void _onItemTapped(int index) {
     setState(() {
@@ -77,6 +85,21 @@ static Future<void> deleteNonFbMEDS() async {
       print("Error signing out: $e");
     }
   }
+ Widget _buildUserProfileIcon(String? userProfilePicture) {
+  if (userProfilePicture != null && userProfilePicture.isNotEmpty) {
+    String fullUrl = "assets/$userProfilePicture";
+    return CircleAvatar(
+      radius: 28,
+      backgroundImage: AssetImage(fullUrl),
+    );
+  } else {
+    return Icon(
+      Icons.account_circle,
+      size: 32,
+      color: Color.fromARGB(255, 48, 47, 69),
+    );
+  }
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,17 +128,16 @@ static Future<void> deleteNonFbMEDS() async {
               elevation: 0, 
               title: Row(
                 children: [
-                  SizedBox(width: 0), 
-                  InkWell(
-                    onTap: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    child: Icon(
-                      Icons.account_circle,
-                      size: 32, 
-                      color: Color.fromARGB(255, 52, 48, 101), 
-                    ),
-                  ),
+                 
+               InkWell(
+  onTap: () {
+    Scaffold.of(context).openDrawer();
+  },
+  child: Padding(
+    padding: const EdgeInsets.symmetric(horizontal:0.0),
+    child: _buildUserProfileIcon(_userProfilePicture),
+  ),
+),
                   SizedBox(width: 10), 
               
                   Text(
@@ -154,98 +176,135 @@ static Future<void> deleteNonFbMEDS() async {
         onTap: _onItemTapped,
       ),
       drawer: Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 163, 123, 255),
-            ),
-            child: Text(
-              'Pill Pilot',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
+      child: Drawer(
+  child: ListView(
+    padding: EdgeInsets.zero,
+    children: [
+      DrawerHeader(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color.fromARGB(255, 163, 123, 255), Color.fromARGB(255, 42, 24, 182)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 16),
+              child: Row(
+                children: [
+                  Icon(
+  FontAwesomeIcons.capsules,
+  color: Colors.white,
+  size: 40,
+),
+                  SizedBox(width: 10),
+                  Text(
+                    'Pill Pilot',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text(
-              'Edit Profile',
-              style: TextStyle(
-                fontSize: 18,
+            SizedBox(height: 10),
+            Padding(
+              padding: EdgeInsets.only(left: 16),
+              child: Text(
+                'Your Health Co-Pilot ',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
               ),
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EditProfilePage()), 
-              );
-            },
+          ],
+        ),
+      ),
+      ListTile(
+        leading: Icon(Icons.person),
+        title: Text(
+          'Edit Profile',
+          style: TextStyle(
+            fontSize: 18,
           ),
-          ListTile(
-            leading: Icon(Icons.sync),
-            title: Text(
-              'Sync Data',
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SyncPage()), 
-              );
-            },
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => EditProfilePage()), 
+          );
+        },
+      ),
+      ListTile(
+        leading: Icon(Icons.sync),
+        title: Text(
+          'Sync Data',
+          style: TextStyle(
+            fontSize: 18,
           ),
-          
-          ListTile(
-            leading: Icon(Icons.book),
-            title: Text(
-              'Journal',
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-           onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => JournalPage()), 
-              );
-            },
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SyncPage()), 
+          );
+        },
+      ),
+      ListTile(
+        leading: Icon(Icons.book),
+        title: Text(
+          'Journal',
+          style: TextStyle(
+            fontSize: 18,
           ),
-          ListTile(
-            leading: Icon(Icons.people),
-            title: Text(
-              'Friends',
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => FriendsPage()), 
-              );
-            },
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => JournalPage()), 
+          );
+        },
+      ),
+      ListTile(
+        leading: Icon(Icons.people),
+        title: Text(
+          'Friends',
+          style: TextStyle(
+            fontSize: 18,
           ),
-          ListTile(
-            leading: Icon(
-              Icons.logout,
-              color: Colors.red,
-            ),
-            title: Text(
-              'Log Out',
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 18,
-              ), 
-            ),
-            onTap: _signOut,
-          ),
-        ],
-       ) ),
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => FriendsPage()), 
+          );
+        },
+      ),
+      ListTile(
+        leading: Icon(
+          Icons.logout,
+          color: Colors.red,
+        ),
+        title: Text(
+          'Log Out',
+          style: TextStyle(
+            color: Colors.red,
+            fontSize: 18,
+          ), 
+        ),
+        onTap: _signOut,
+      ),
+    ],
+  ),
+),
+      )
     );
   }
 }

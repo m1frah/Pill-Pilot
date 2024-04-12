@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // Import for date formatting
 import 'package:pillapp/database/sql_helper.dart';
 
 class EditAppointmentPage extends StatefulWidget {
@@ -52,6 +53,36 @@ class _EditAppointmentPageState extends State<EditAppointmentPage> {
     }
   }
 
+  Future<void> _selectDateTime(BuildContext context) async {
+    final DateTime? pickedDateTime = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().subtract(Duration(days: 365)), // One year ago
+      lastDate: DateTime.now().add(Duration(days: 365)), // One year from now
+    );
+
+    if (pickedDateTime != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(DateTime.now()),
+      );
+
+      if (pickedTime != null) {
+        final DateTime selectedDateTime = DateTime(
+          pickedDateTime.year,
+          pickedDateTime.month,
+          pickedDateTime.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+
+        setState(() {
+          _dateTimeController.text = DateFormat('yyyy-MM-dd HH:mm').format(selectedDateTime);
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,6 +104,8 @@ class _EditAppointmentPageState extends State<EditAppointmentPage> {
             ),
             TextFormField(
               controller: _dateTimeController,
+              readOnly: true, // Make the field read-only
+              onTap: () => _selectDateTime(context), // Open date-time picker on tap
               decoration: InputDecoration(labelText: 'Date and Time'),
             ),
             SizedBox(height: 20),

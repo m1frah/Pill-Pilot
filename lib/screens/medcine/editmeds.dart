@@ -1,73 +1,74 @@
-import 'package:flutter/material.dart';
-import 'package:pillapp/database/sql_helper.dart';
+  import 'package:flutter/material.dart';
+  import 'package:pillapp/database/sql_helper.dart';
 
-class EditMedsPage extends StatefulWidget {
-  final Map<String, dynamic> medication;
+  class EditMedsPage extends StatefulWidget {
+    final Map<String, dynamic> medication;
 
-  EditMedsPage({Key? key, required this.medication}) : super(key: key);
+    EditMedsPage({Key? key, required this.medication}) : super(key: key);
 
-  @override
-  _EditMedsPageState createState() => _EditMedsPageState();
-}
-
-class _EditMedsPageState extends State<EditMedsPage> {
-  late TextEditingController _nameController;
-  late TextEditingController _reasonController;
-  late TextEditingController _timeController;
-
-  List<bool> _selectedDays = [false, false, false, false, false, false, false];
-  List<String> _daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-  @override
-  void initState() {
-    super.initState();
-
-    _nameController = TextEditingController(text: widget.medication['name']);
-    _reasonController = TextEditingController(text: widget.medication['reason']);
-    _timeController = TextEditingController(text: widget.medication['time']);
-    _selectedDays = widget.medication['days'].toString().split('').map((e) => e == '1').toList();
+    @override
+    _EditMedsPageState createState() => _EditMedsPageState();
   }
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _reasonController.dispose();
-    _timeController.dispose();
-    super.dispose();
-  }
+  class _EditMedsPageState extends State<EditMedsPage> {
+    late TextEditingController _nameController;
+    late TextEditingController _reasonController;
+    late TextEditingController _timeController;
 
-  Future<void> _saveChanges() async {
-    String days = _selectedDays.map((selected) => selected ? '1' : '0').join('');
-    String time = _timeController.text; 
+    List<bool> _selectedDays = [false, false, false, false, false, false, false];
+    List<String> _daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-    await SQLHelper.updateMed(
-      widget.medication['id'],
-      widget.medication['type'],
-      _nameController.text,
-      _reasonController.text,
-      days,
-      time,
-    );
+    @override
+    void initState() {
+      super.initState();
 
-    Navigator.pop(context, true);
-  }
-
-  Future<void> _deleteMedication() async {
-    try {
-      await SQLHelper.deleteMed(widget.medication['id']);
-      Navigator.pop(context, true);
-    } catch (err) {
-      debugPrint("Error deleting medication: $err");
+      _nameController = TextEditingController(text: widget.medication['name']);
+      _reasonController = TextEditingController(text: widget.medication['reason']);
+      _timeController = TextEditingController(text: widget.medication['time']);
+      _selectedDays = widget.medication['days'].toString().split('').map((e) => e == '1').toList();
     }
-  }
+
+    @override
+    void dispose() {
+      _nameController.dispose();
+      _reasonController.dispose();
+      _timeController.dispose();
+      super.dispose();
+    }
+
+    Future<void> _saveChanges() async {
+      String days = _selectedDays.map((selected) => selected ? '1' : '0').join('');
+      String time = _timeController.text; 
+
+      await SQLHelper.updateMed(
+        widget.medication['id'],
+        widget.medication['type'],
+        _nameController.text,
+        _reasonController.text,
+        days,
+        time,
+      );
+
+      Navigator.pop(context, true);
+    }
+
+    Future<void> _deleteMedication() async {
+      try {
+        await SQLHelper.deleteMed(widget.medication['id']);
+        Navigator.pop(context, true);
+      } catch (err) {
+        debugPrint("Error deleting medication: $err");
+      }
+    }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Edit Medication'),
-      ),
-      body: Padding(
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Edit Medication'),
+    ),
+    body: SingleChildScrollView( // Wrap with SingleChildScrollView
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,10 +141,10 @@ class _EditMedsPageState extends State<EditMedsPage> {
                 ElevatedButton.icon(
                   onPressed: () => _deleteMedication(),
                   icon: Icon(Icons.delete, color: Colors.white),
-label: Text(
-    'Delete',
-    style: TextStyle(color: Colors.white),
-  ),
+                  label: Text(
+                    'Delete',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
                   ),
@@ -157,6 +158,7 @@ label: Text(
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
 }
+  }

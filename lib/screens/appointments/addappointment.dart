@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
 import 'package:pillapp/database/sql_helper.dart';
-
+import '../home.dart';
 class AddAppointmentPage extends StatefulWidget {
   @override
   _AddAppointmentPageState createState() => _AddAppointmentPageState();
@@ -31,6 +31,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
             content: Text('Appointment added successfully'),
             backgroundColor: Colors.green,
           ),
+          
         );
 
       
@@ -39,6 +40,10 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
         setState(() {
           _selectedDateTime = null;
         });
+      Navigator.pushReplacement(
+  context,
+  MaterialPageRoute(builder: (context) => HomePage()),
+);
       } else {
 
         ScaffoldMessenger.of(context).showSnackBar(

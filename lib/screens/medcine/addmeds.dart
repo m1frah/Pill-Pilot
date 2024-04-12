@@ -17,6 +17,8 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
     _nameController.dispose();
     _reasonController.dispose();
     super.dispose();
+   
+    Navigator.pop(context);
   }
 
   @override

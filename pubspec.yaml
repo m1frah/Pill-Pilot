@@ -48,7 +48,7 @@ dependencies:
   image_picker: ^0.8.4+4
   rxdart: ^0.27.7
   flutter_sequence_animation: ^4.0.0
-
+  font_awesome_flutter: ^9.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -65,10 +65,13 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
+        - asset: fonts/Roboto-Bold.ttf
+          weight: 700
 
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
