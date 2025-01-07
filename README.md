@@ -1,7 +1,7 @@
 **Pill Pilot App**
 
-**Description:**
-The Pill Pilot App is a Flutter project developed for the Mobile Application Development module. This application aims to assist users in managing their medication intake efficiently.
+
+The Pill Pilot App is a Flutter project. This application aims to assist users in managing their medication intake efficiently.
 
 **Features:**
 - User-friendly interface for easy navigation.
